@@ -9,9 +9,10 @@ Route::get('/', function () {
 
 Route::view('/dashboard', 'dashboard.index')->name('dashboard');
 
-Route::resources([
-    'repairs' => repairController::class,
-]);
+Route::resource(
+    'repairs',
+    repairController::class
+);
 
 Route::get('/login', function () {
     return view('auth.login');

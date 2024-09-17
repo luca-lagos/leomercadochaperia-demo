@@ -24,7 +24,7 @@ class updateRepairRequest extends FormRequest
         $repair = $this->route('repair');
         return [
             'fullname' => 'required|unique:repairs,fullname,' . $repair->id . '|max:50',
-            'dni' => 'required|,unique:repairs,dni,' . $repair->id . '|max:100',
+            'dni' => 'required|unique:repairs,dni,' . $repair->id . '|max:100',
             'phone' => 'required|unique:repairs,phone,' . $repair->id . '|max:100',
             'location' => 'required|unique:repairs,location,' . $repair->id . '|max:150',
             'vehicle' => 'required|unique:repairs,vehicle,' . $repair->id . '|max:150',

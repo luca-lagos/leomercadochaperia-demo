@@ -67,10 +67,11 @@
                                 <tr>
                                     <td>{{ $repair->fullname }}</td>
                                     <td>{{ $repair->dni }}</td>
+                                    <td>{{ $repair->vehicle }}</td>
                                     <td>{{ $repair->type_repair }}</td>
                                     <td>${{ $repair->price }}</td>
                                     <td>
-                                        @if ($repair->status == 1)
+                                        @if ($repair->status == 2)
                                             <span class="fw-bolder p-1 rounded bg-success text-white">REPARADO</span>
                                         @endif
                                         @if ($repair->status == 1)
@@ -96,7 +97,7 @@
                                                         class="fas fa-check-circle"></i></button>
                                                 <button class="btn btn-danger rounded px-4 ml-1" data-toggle="modal"
                                                     data-target="#confirmModal-{{ $repair->id, $repair->fullname }}"><i
-                                                        class="fa fa-trash"></i></button>
+                                                        class="fas fa-times-circle"></i></button>
                                             @endif
                                             @if ($repair->status == 0)
                                                 <button class="btn btn-dark rounded px-4 ml-1" data-toggle="modal"
@@ -194,11 +195,12 @@
                                                         method="post">
                                                         @method('DELETE')
                                                         @csrf
-                                                        <button type="submit" class="btn btn-danger">Cancelar</button>
+                                                        <button type="submit" name="action" value="confirm_cancel"
+                                                            class="btn btn-danger">Cancelar</button>
                                                     </form>
                                                 </div>
                                             </div>
-                                        @else
+                                        @elseif($repair->status == 0 || $repair->status == 2)
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">Confirmar reactivación
@@ -220,7 +222,8 @@
                                                         method="post">
                                                         @method('DELETE')
                                                         @csrf
-                                                        <button type="submit" class="btn btn-danger">Reactivar</button>
+                                                        <button type="submit" name="action" value="confirm_restore"
+                                                            class="btn btn-danger">Reactivar</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -229,72 +232,45 @@
                                     </div>
                                 </div>
 
-                                <!-- Confirmation vehicle repaired modal -->
                                 <div class="modal fade" id="confirmRepairedModal-{{ $repair->id, $repair->fullname }}"
-                                    tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                                    tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
-                                        @if ($repair->status == 1)
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel2">Confirmar reparación
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    ¿Estás seguro de confirmar la reparación del vehículo
-                                                    "{{ $repair->vehicle }}" de "{{ $repair->fullname }}"?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Cerrar</button>
-                                                    <form
-                                                        action="{{ route('repairs.confirm_repaired', ['product' => $repair->id]) }}"
-                                                        method="post">
-                                                        @method('PATCH')
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-danger">Confirmar</button>
-                                                    </form>
-                                                </div>
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel2">Confirmar reparación
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
-                                        @else
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel2">Reiniciar reparación
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    ¿Estás seguro de reiniciar la reparación del vehículo
-                                                    "{{ $repair->vehicle }}" de "{{ $repair->fullname }}"?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Cerrar</button>
-                                                    <form
-                                                        action="{{ route('repairs.confirm_repaired', ['repair' => $repair->id]) }}"
-                                                        method="post">
-                                                        @method('PATCH')
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-danger">Reiniciar</button>
-                                                    </form>
-                                                </div>
+                                            <div class="modal-body">
+                                                ¿Estás seguro de confirmar la reparación del vehículo
+                                                "{{ $repair->vehicle }}" de "{{ $repair->fullname }}"?
                                             </div>
-                                        @endif
-
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Cerrar</button>
+                                                <form action="{{ route('repairs.destroy', ['repair' => $repair->id]) }}"
+                                                    method="post">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button type="submit" name="action" value="confirm_repair"
+                                                        class="btn btn-danger">Confirmar</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            @endforeach
-                        </tbody>
-                    </table>
+
                 </div>
             </div>
+            @endforeach
+            </tbody>
+            </table>
         </div>
+    </div>
+    </div>
     </div>
 @endsection
 @push('js')

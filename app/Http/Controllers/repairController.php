@@ -17,7 +17,7 @@ class repairController extends Controller
      */
     public function index()
     {
-        $repairs = DB::table('repairs')->latest()->get();
+        $repairs = Repair::all();
         /*dd($repairs);*/
         return view('repairs.index', ['repairs' => $repairs]);
     }
@@ -118,35 +118,27 @@ class repairController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, Request $request)
     {
         $repair = Repair::find($id);
-        if ($repair->status == 1) {
-            Repair::where('id', $repair->id)->update([
-                'status' => '0'
-            ]);
-        } else {
-            Repair::where('id', $repair->id)->update([
-                'status' => '1'
-            ]);
+        switch ($request->input('action')) {
+            case 'confirm_cancel':
+                Repair::where('id', $repair->id)->update([
+                    'status' => '0'
+                ]);
+                break;
+            case 'confirm_restore':
+                Repair::where('id', $repair->id)->update([
+                    'status' => '1'
+                ]);
+                break;
+            case 'confirm_repair':
+                Repair::where('id', $repair->id)->update([
+                    'status' => '2'
+                ]);
+                break;
         }
 
-        return redirect()->route('products.index')->with('success', 'Estado actualizado correctamente :)');
-    }
-
-    public function confirm_repaired(string $id)
-    {
-        $repair = Repair::find($id);
-        if ($repair->status != 2) {
-            Repair::where('id', $repair->id)->update([
-                'status' => '2'
-            ]);
-        } else {
-            Repair::where('id', $repair->id)->update([
-                'status' => '1'
-            ]);
-        }
-
-        return redirect()->route('products.index')->with('success', 'Estado actualizado correctamente :)');
+        return redirect()->route('repairs.index')->with('success', 'Estado actualizado correctamente :)');
     }
 }
