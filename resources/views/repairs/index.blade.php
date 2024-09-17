@@ -12,6 +12,9 @@
             height: 350px !important;
             object-fit: cover;
         }
+        a{
+            color: #d83d0e;
+        }
     </style>
 @endpush
 @section('content')
@@ -92,7 +95,7 @@
                                                         class="fas fa-edit"></i></button>
                                             </form>
                                             @if ($repair->status == 1)
-                                                <button class="btn btn-success rounded px-4 ml-1" data-toggle="modal"
+                                                <button class="btn btn-success rounded px-4 ml-1 mr-1" data-toggle="modal"
                                                     data-target="#confirmRepairedModal-{{ $repair->id, $repair->fullname }}"><i
                                                         class="fas fa-check-circle"></i></button>
                                                 <button class="btn btn-danger rounded px-4 ml-1" data-toggle="modal"
@@ -146,11 +149,11 @@
                                                         </p>
                                                     </div>
                                                     <div class="col-12">
-                                                        <p style="font-weight: bolder">Imagen:</p>
+                                                        <p style="font-weight: bolder">Imagen: {{$repair->image_path}}</p>
                                                         <div class="d-flex justify-content-center">
                                                             @if ($repair->image_path != null)
                                                                 <img id="image_path"
-                                                                    src="{{ Storage::url('public/repairs/' . $repair->image_path) }}"
+                                                                    src="{{ Storage::url('storage/repairs/' . $repair->image_path) }}"
                                                                     alt="{{ $repair->fullname }}"
                                                                     class="img-fluid img-thumbnail border-4 rounded">
                                                             @else

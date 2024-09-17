@@ -17,6 +17,10 @@
             object-fit: cover;
             border-radius: 5px;
         }
+
+        a {
+            color: #d83d0e;
+        }
     </style>
 @endpush
 @section('content')
@@ -142,7 +146,7 @@
                         <div class="border rounded-lg text-center p-3">
                             <img src="//placehold.it/140?text=IMAGE" id="preview" />
                         </div>
-    
+
                         @error('image_path')
                             <small class="text-danger">{{ '* ' . $message }}</small>
                         @enderror

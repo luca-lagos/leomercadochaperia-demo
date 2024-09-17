@@ -17,6 +17,9 @@
             object-fit: cover;
             border-radius: 5px;
         }
+        a{
+            color: #d83d0e;
+        }
     </style>
 @endpush
 @section('content')
