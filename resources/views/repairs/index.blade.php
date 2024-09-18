@@ -12,7 +12,8 @@
             height: 350px !important;
             object-fit: cover;
         }
-        a{
+
+        a {
             color: #d83d0e;
         }
     </style>
@@ -149,15 +150,18 @@
                                                         </p>
                                                     </div>
                                                     <div class="col-12">
-                                                        <p style="font-weight: bolder">Imagen: {{$repair->image_path}}</p>
+                                                        <p style="font-weight: bolder">Imagen: {{ $repair->image_path }}
+                                                        </p>
                                                         <div class="d-flex justify-content-center">
+
                                                             @if ($repair->image_path != null)
                                                                 <img id="image_path"
-                                                                    src="{{ Storage::url('storage/repairs/' . $repair->image_path) }}"
+                                                                    src="{{ Storage::url('repairs/' . $repair->image_path) }}"
                                                                     alt="{{ $repair->fullname }}"
                                                                     class="img-fluid img-thumbnail border-4 rounded">
                                                             @else
-                                                                <img src="" alt="{{ $repair->fullname }}">
+                                                                <img src="{{ asset('') }}"
+                                                                    alt="{{ $repair->fullname }}">
                                                             @endif
                                                         </div>
                                                     </div>
@@ -283,11 +287,5 @@
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-    <script>
-        $('#dataTable').DataTable({
-            'language': {
-                'url': '//cdn.datatables.net/plug-ins/2.1.6/i18n/es-MX.json',
-            },
-        })
-    </script>
+    <script src="js/scripts.js"></script>
 @endpush

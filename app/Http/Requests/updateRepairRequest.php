@@ -26,11 +26,11 @@ class updateRepairRequest extends FormRequest
             'fullname' => 'required|unique:repairs,fullname,' . $repair->id . '|max:50',
             'dni' => 'required|unique:repairs,dni,' . $repair->id . '|max:100',
             'phone' => 'required|unique:repairs,phone,' . $repair->id . '|max:100',
-            'location' => 'required|unique:repairs,location,' . $repair->id . '|max:150',
-            'vehicle' => 'required|unique:repairs,vehicle,' . $repair->id . '|max:150',
+            'location' => 'required|max:150',
+            'vehicle' => 'required|max:150',
             'image_path' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
-            'type_repair' => 'required|unique:repairs,type_repair,' . $repair->id . '|max:150',
-            'price' => 'required|unique:repairs,price,' . $repair->id . '|max:100',
+            'type_repair' => 'required|max:150',
+            'price' => 'required|max:100',
             'details' => 'nullable|max:255',
         ];
     }

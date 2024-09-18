@@ -139,8 +139,14 @@
                             <div class="custom-file">
                                 <input type="file" name="image_path" id="image_path" class="custom-file-input"
                                     value="{{ old('image_path', $repair->image_path) }}" accept="image/*">
-                                <label for="image_path" class="custom-file-label" data-browse="Seleccionar">Elije una
-                                    imagen</label>
+                                <label for="image_path" class="custom-file-label" data-browse="Seleccionar">
+                                    @if ($repair->image_path != null)
+                                        {{$repair->image_path}}
+                                    @else
+                                    Elije una
+                                    imagen
+                                    @endif
+                                </label>
                             </div>
                         </div>
                         <div class="border rounded-lg text-center p-3">
